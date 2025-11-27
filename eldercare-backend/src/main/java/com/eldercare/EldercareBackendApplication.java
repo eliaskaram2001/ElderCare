@@ -1,4 +1,4 @@
-package com.eldercare.eldercare_backend;
+package com.eldercare;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
