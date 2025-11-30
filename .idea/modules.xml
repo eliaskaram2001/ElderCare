@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ElderCare.iml" filepath="$PROJECT_DIR$/ElderCare.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eldercare-backend/eldercare-backend.iml" filepath="$PROJECT_DIR$/eldercare-backend/eldercare-backend.iml" />
+    </modules>
+  </component>
+</project>

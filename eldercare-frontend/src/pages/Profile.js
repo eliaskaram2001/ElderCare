@@ -1,153 +1,65 @@
 import React, { useState } from "react";
 import API from "../api/api";
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const mockUser = {
-    id: 1,
-    fullName: "Jane Doe",
-    email: "jane@example.com",
-    location: "New York",
-    bio: "Care provider with 5 years experience",
-    phone: "555-123-4567"
-};
-
-
-function Profile({ user = mockUser }) {
-
-    const [isEditing, setIsEditing] = useState(false)
-
+function Register() {
+    const [form, setForm] = useState({ fullName: "", email: "", password: "", role: "CLIENT", location: "", bio: "", phone: "" });
     const navigate = useNavigate();
 
-    const handleLogOut = (e) => {
-        navigate("/Login")
+    // Handle input changes
+    const update = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+    // Handle form submission
+    const handleRegister = async () => {
+        if (!form.fullName || !form.email || !form.password) return alert("Please fill required fields");
+        try {
+            await API.post("/auth/register", form);
+            navigate("/login");
+        } catch (err) { alert("Registration failed."); }
     };
 
-    if (!user) return <h3>You are not logged in</h3>;
-
     return (
-        <>{/*code that creates the marketplace button*/}
-            <div className={"d-flex justify-content-start align-items-start m-2 ms-3"}>
-                <Link to={"/Marketplace"}>Marketplace</Link>
-            </div>
+        <div className="boss-login-container">
+            <div className="boss-login-card-wrapper" style={{ height: '650px' }}>
 
-            {/* code that will create the view profile features*/}
-            <div className="d-flex justify-content-start align-items-center vh-100 flex-column p-5">
-                <h1>Profile</h1>
-
-                {!isEditing && (
-                <>
-                    <p className={"mb-1"}><strong>Name:</strong> {user.fullName}</p>
-                    <h6 className={"mb-1"}><strong>Email:</strong> {user.email}</h6>
-                    <h6 className={"mb-1"}><strong>Location:</strong> {user.location}</h6>
-                    <h6 className={"mb-1"}><strong>Biography:</strong> {user.bio}</h6>
-                    <h6 className={"mb-3"}><strong>Phone Number:</strong> {user.phone}</h6>
-                    <div className={"d-flex justify-content-center gap-3"}>
-                        <button
-                            type={"button"}
-                            onClick={() => setIsEditing(true)}
-                            className={"btn btn-secondary"}
-                        >
-                            Edit Profile
-                        </button>
-                        <button
-                            type={"button"}
-                            onClick={handleLogOut}
-                            className={"btn btn-danger"}
-                        >
-                            Log Out
-                        </button>
+                <div className="boss-login-banner">
+                    <h2 style={{ color: '#00bebd', fontWeight: '800', marginBottom: '40px' }}>Join Us</h2>
+                    <div className="boss-promo-item">
+                        <div className="boss-promo-icon"><i className="bi bi-person-check-fill"></i></div>
+                        <div><h5 style={{fontWeight:'bold'}}>Trusted</h5><p style={{fontSize:'13px', color:'#888'}}>Community vetted caregivers.</p></div>
                     </div>
-                </>
-                )}
-                {isEditing && (
-                    <EditProfileForm
-                        user={user}
-                        onCancel={() => setIsEditing(false)}
-                        onSave={() => setIsEditing(false)}
-                    />
-                )}
+                    <div className="boss-promo-item">
+                        <div className="boss-promo-icon"><i className="bi bi-heart-fill"></i></div>
+                        <div><h5 style={{fontWeight:'bold'}}>Caring</h5><p style={{fontSize:'13px', color:'#888'}}>Support for your loved ones.</p></div>
+                    </div>
+                </div>
+
+                <div className="boss-login-form-area" style={{ overflowY: 'auto' }}>
+                    <h3 style={{ marginBottom: '20px', fontWeight: 'bold' }}>Create Account</h3>
+
+                    <div className="boss-login-tabs">
+                        <div className={`boss-tab-item ${form.role==='CLIENT'?'active':''}`} onClick={()=>setForm({...form, role:'CLIENT'})}>I need Care</div>
+                        <div className={`boss-tab-item ${form.role==='PROVIDER'?'active':''}`} onClick={()=>setForm({...form, role:'PROVIDER'})}>I offer Care</div>
+                    </div>
+
+                    <div className="row g-2">
+                        <div className="col-6"><input name="fullName" className="boss-login-input" placeholder="Full Name" onChange={update} /></div>
+                        <div className="col-6"><input name="phone" className="boss-login-input" placeholder="Phone" onChange={update} /></div>
+                    </div>
+                    <input name="email" className="boss-login-input" placeholder="Email Address" onChange={update} />
+                    <input type="password" name="password" className="boss-login-input" placeholder="Password" onChange={update} />
+                    <input name="location" className="boss-login-input" placeholder="City, State" onChange={update} />
+
+                    <button className="btn-boss-full" onClick={handleRegister}>Sign Up</button>
+
+                    <div className="text-center mt-3">
+                        <span style={{ color: '#666', fontSize:'14px' }}>Already have an account? </span>
+                        <Link to="/login" style={{ color: '#00bebd', fontWeight: '600' }}>Log In</Link>
+                    </div>
+                </div>
             </div>
-        </>
+        </div>
     );
 }
 
-{/* function that handles the state switch for when we start to edit the profile*/}
-
-function EditProfileForm({ user, onCancel, onSave }) {
-
-    const [form, setForm] = useState({
-        fullName: user.fullName || "",
-        email: user.email || "",
-        location: user.location || "",
-        bio: user.bio || "",
-        phone: user.phone || ""
-    });
-
-    const update = (e) => {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    return (
-        <form>
-            <div className={"mb-3"}>
-                <label className={"form-label"}>Full Name</label>
-                <input
-                    name={"fullName"}
-                    className={"form-control"}
-                    value={form.fullName}
-                    onChange={update}
-                />
-                <label className={"form-label"}>Email</label>
-                <input
-                    name={"email"}
-                    className={"form-control"}
-                    value={form.email}
-                    onChange={update}
-                />
-                <label className={"form-label"}>Location</label>
-                <input
-                    name={"location"}
-                    className={"form-control"}
-                    value={form.location}
-                    onChange={update}
-                />
-                <label className={"form-label"}>Biography</label>
-                <textarea
-                    name={"bio"}
-                    className={"form-control"}
-                    rows={4}
-                    value={form.bio}
-                    onChange={update}
-                />
-                <label className={"form-label"}>Phone Number</label>
-                <input
-                    name={"phone"}
-                    className={"form-control"}
-                    value={form.phone}
-                    onChange={update}
-                />
-            </div>
-
-            <button
-                type={"submit"}
-                className={"btn btn-success me-2"}
-                onClick={onSave}
-            >
-                Save
-            </button>
-
-            <button
-                type={"button"}
-                className={"btn btn-secondary"}
-                onClick={onCancel}
-            >
-                Cancel
-            </button>
-        </form>
-    );
-}
-
-export default Profile;
+export default Register;
