@@ -69,15 +69,14 @@ ElderCare/
 > In a clean setup, `.idea/`, `out/`, and `.DS_Store` can be added to `.gitignore`.
 
 ---
-
 ## Prerequisites
 
 To run the full application locally, you should have:
 
-- **Java 17+** (or the version used by your team)  
-- **Maven 3+**  
-- **Node.js + npm** (for the frontend)  
-- **MySQL** server  
+- **Java 17+** (or the version used by your team)
+- **Maven 3+**
+- **Node.js + npm** (for the frontend)
+- **MySQL** server
 
 ---
 
@@ -88,7 +87,9 @@ To run the full application locally, you should have:
    ```bash
    git clone https://github.com/eliaskaram2001/ElderCare.git
    cd ElderCare
-   ```
+
+---
+
 
 2. **Create the database**
 
