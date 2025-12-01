@@ -65,67 +65,82 @@ ElderCare/
 ├── out/                    # Build output (can be ignored)
 └── .DS_Store               # macOS file (should be ignored)
 
-Prerequisites
+
+> In a clean setup, `.idea/`, `out/`, and `.DS_Store` can be added to `.gitignore`.
+
+---
+
+## Prerequisites
 
 To run the full application locally, you should have:
 
-Java 17+ (or the version used by your team)
+- **Java 17+** (or the version used by your team)  
+- **Maven 3+**  
+- **Node.js + npm** (for the frontend)  
+- **MySQL** server  
 
-Maven 3+
+---
 
-Node.js + npm (for the frontend)
+## Backend setup (Spring Boot + MySQL)
 
-MySQL server
+1. **Clone the repository**
 
-Backend setup (Spring Boot + MySQL)
+   ```bash
+   git clone https://github.com/eliaskaram2001/ElderCare.git
+   cd ElderCare
+   ```
 
-Clone the repository:
+2. **Create the database**
 
-git clone https://github.com/eliaskaram2001/ElderCare.git
-cd ElderCare
+   ```sql
+   CREATE DATABASE eldercare;
+   ```
 
+   Then run the SQL scripts in `eldercare-backend/sql/` to create tables and optional sample data.
 
-Create the database:
+3. **Configure database credentials**
 
-CREATE DATABASE eldercare;
+   Edit `eldercare-backend/src/main/resources/application.properties`:
 
+   ```properties
+   spring.datasource.url=jdbc:mysql://localhost:3306/eldercare
+   spring.datasource.username=YOUR_USERNAME
+   spring.datasource.password=YOUR_PASSWORD
+   ```
 
-Then run the SQL scripts in eldercare-backend/sql/ to create tables and optional sample data.
+4. **Build and run the backend**
 
-Configure database credentials in eldercare-backend/src/main/resources/application.properties:
+   ```bash
+   cd eldercare-backend
+   mvn clean install
+   mvn spring-boot:run
+   ```
 
-spring.datasource.url=jdbc:mysql://localhost:3306/eldercare
-spring.datasource.username=YOUR_USERNAME
-spring.datasource.password=YOUR_PASSWORD
+---
 
+## Frontend setup
 
-Build and run the backend:
+1. In a new terminal:
 
-cd eldercare-backend
-mvn clean install
-mvn spring-boot:run
+   ```bash
+   cd ElderCare/eldercare-frontend
+   npm install
+   npm start
+   ```
 
-Frontend setup
+2. The frontend is usually available at:
 
-In a new terminal:
+   - Frontend: `http://localhost:3000`  
+   - Backend API: `http://localhost:8080`  
 
-cd ElderCare/eldercare-frontend
-npm install
-npm start
+---
 
+## Contributors
 
-The frontend is usually available on http://localhost:3000 and talks to the backend on http://localhost:8080.
+- Elias Karam  
+- Joe Del Balzo  
+- Zexin Li  
+- Yanjiao Tan  
+- Micah Wang  
+- Lan Weiming  
 
-Contributors
-
-Elias Karam
-
-Joe Del Balzo
-
-Zexin Li
-
-Yanjiao Tan
-
-Micah Wang
-
-Lan Weiming
