@@ -64,3 +64,68 @@ ElderCare/
 ├── .idea/                  # IDE metadata (can be ignored)
 ├── out/                    # Build output (can be ignored)
 └── .DS_Store               # macOS file (should be ignored)
+
+Prerequisites
+
+To run the full application locally, you should have:
+
+Java 17+ (or the version used by your team)
+
+Maven 3+
+
+Node.js + npm (for the frontend)
+
+MySQL server
+
+Backend setup (Spring Boot + MySQL)
+
+Clone the repository:
+
+git clone https://github.com/eliaskaram2001/ElderCare.git
+cd ElderCare
+
+
+Create the database:
+
+CREATE DATABASE eldercare;
+
+
+Then run the SQL scripts in eldercare-backend/sql/ to create tables and optional sample data.
+
+Configure database credentials in eldercare-backend/src/main/resources/application.properties:
+
+spring.datasource.url=jdbc:mysql://localhost:3306/eldercare
+spring.datasource.username=YOUR_USERNAME
+spring.datasource.password=YOUR_PASSWORD
+
+
+Build and run the backend:
+
+cd eldercare-backend
+mvn clean install
+mvn spring-boot:run
+
+Frontend setup
+
+In a new terminal:
+
+cd ElderCare/eldercare-frontend
+npm install
+npm start
+
+
+The frontend is usually available on http://localhost:3000 and talks to the backend on http://localhost:8080.
+
+Contributors
+
+Elias Karam
+
+Joe Del Balzo
+
+Zexin Li
+
+Yanjiao Tan
+
+Micah Wang
+
+Lan Weiming
