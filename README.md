@@ -136,12 +136,11 @@ To run the full application locally, you should have:
 
 ---
 
-## Contributors
+## Contributors(There is no particular order.)
 
 - Elias Karam  
 - Joe Del Balzo  
-- Zexin Li  
 - Yanjiao Tan  
 - Micah Wang  
 - Lan Weiming  
-
+- Zexin Li  
