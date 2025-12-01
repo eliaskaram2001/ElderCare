@@ -67,7 +67,7 @@ ElderCare/
 
 
 > In a clean setup, `.idea/`, `out/`, and `.DS_Store` can be added to `.gitignore`.
-
+```
 ---
 ## Prerequisites
 
