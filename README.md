@@ -57,7 +57,7 @@ Tech stack
 
 Backend: Java, Spring Boot, Maven
 
-Database: MySQL (relational schema based on our ER diagram)
+Database: MySQL
 
 Frontend: JavaScript single-page application, HTML, CSS
 
@@ -93,87 +93,56 @@ MySQL server
 
 Backend setup (Spring Boot + MySQL)
 
-Clone the repository
+Clone the repository:
 
 git clone https://github.com/eliaskaram2001/ElderCare.git
 cd ElderCare
 
 
-Create the database
-
-Start MySQL.
-
-Create a database (example):
+Create the database:
 
 CREATE DATABASE eldercare;
 
 
-Run the SQL scripts in eldercare-backend/sql/ to create tables and optional sample data.
+Then run the SQL scripts in eldercare-backend/sql/ to create tables and optional sample data.
 
-Configure database credentials
-
-Open eldercare-backend/src/main/resources/application.properties and set:
+Configure database credentials in eldercare-backend/src/main/resources/application.properties:
 
 spring.datasource.url=jdbc:mysql://localhost:3306/eldercare
 spring.datasource.username=YOUR_USERNAME
 spring.datasource.password=YOUR_PASSWORD
 
 
-Build and run the backend
+Build and run the backend:
 
 cd eldercare-backend
 mvn clean install
 mvn spring-boot:run
 
-
-The API will usually run on http://localhost:8080 (or whatever port you configured).
-
 Frontend setup
 
-Open a new terminal and move into the frontend project:
+In a new terminal:
 
 cd ElderCare/eldercare-frontend
-
-
-Install dependencies:
-
 npm install
-
-
-Start the development server:
-
 npm start
 
 
-The frontend is usually available on http://localhost:3000, and it will call the backend API on http://localhost:8080.
+The frontend is usually available on http://localhost:3000 and talks to the backend on http://localhost:8080.
 
 How to use the prototype
 
-Start the backend (Spring Boot + MySQL).
-
-Start the frontend (npm).
+Start the backend and frontend.
 
 Open the frontend in your browser.
 
-Use the app as one of the personas:
+Log in / register as:
 
-Register / log in as a Customer to post jobs and leave reviews.
+Customer to post jobs and leave reviews
 
-Register / log in as a Business to view jobs and advertise services.
+Business to view jobs and advertise services
 
-Log in as an Admin (if seeded) to moderate jobs, reports, and reviews.
-
-Future improvements
-
-More detailed filtering and search for jobs and services
-
-Notification system for new job matches
-
-Stronger access control and validation
-
-More comprehensive admin analytics
-
-Improved responsive UI for mobile devices
+Admin (if seeded) to moderate jobs, reports, and reviews
 
 Contributors
 
@@ -188,8 +157,3 @@ Yanjiao Tan
 Micah Wang
 
 Lan Weiming
-
-License
-
-This project was originally created as part of the ICSI 418Y – Software Engineering course at the University at Albany.
-A formal open-source license has not been specified yet; please contact the authors before reusing the code outside of coursework.
