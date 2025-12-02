@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ElderCare.iml" filepath="$PROJECT_DIR$/ElderCare.iml" />
-      <module fileurl="file://$PROJECT_DIR$/eldercare-backend/eldercare-backend.iml" filepath="$PROJECT_DIR$/eldercare-backend/eldercare-backend.iml" />
     </modules>
   </component>
 </project>
