@@ -1,0 +1,379 @@
+:root {
+  --boss-primary: #00bebd;
+  --boss-hover: #00a6a5;
+  --boss-bg-gray: #f6f6f8;
+  --text-main: #333;
+  --nav-bg: #202329;
+  --card-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--boss-bg-gray);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--text-main);
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; padding: 0; margin: 0; }
+* { box-sizing: border-box; }
+
+/* Top navigation bar */
+.boss-white-header {
+  background-color: white !important;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.boss-logo {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--boss-primary);
+  margin-right: 40px;
+  letter-spacing: -0.5px;
+}
+
+.boss-nav-menu {
+  display: flex;
+  gap: 30px;
+}
+
+.boss-nav-menu a {
+  color: #555;
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.boss-nav-menu a:hover, .boss-nav-menu a.active {
+  color: var(--boss-primary);
+}
+
+.boss-header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.boss-avatar-small {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* other */
+.btn-boss {
+  background-color: var(--boss-primary);
+  color: white !important;
+  border: none;
+  padding: 8px 24px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 14px;
+  display: inline-block;
+}
+.btn-boss:hover { background-color: var(--boss-hover); }
+
+.btn-boss-outline {
+  background: white;
+  border: 1px solid var(--boss-primary);
+  color: var(--boss-primary);
+  padding: 7px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  display: inline-block;
+}
+.btn-boss-outline:hover { background-color: #e0f7fa; }
+
+.boss-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 16px;
+  transition: transform 0.2s;
+  border: 1px solid transparent;
+}
+.boss-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.boss-tag {
+  background: #f8f9fa;
+  color: #666;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-right: 8px;
+  display: inline-block;
+}
+
+.boss-input {
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  border-radius: 4px;
+  padding: 10px 15px;
+  width: 100%;
+  outline: none;
+  transition: border 0.2s;
+}
+.boss-input:focus { border-color: var(--boss-primary); }
+
+/* Welcome Page */
+.boss-search-banner {
+  background: white;
+  padding: 30px 0;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.boss-search-box {
+  display: flex;
+  max-width: 900px;
+  margin: 0 auto;
+  border: 2px solid var(--boss-primary);
+  border-radius: 4px;
+  overflow: hidden;
+  height: 46px;
+}
+
+.boss-search-input {
+  flex: 1;
+  border: none;
+  padding: 0 20px;
+  font-size: 16px;
+  outline: none;
+}
+
+.boss-search-btn {
+  background: var(--boss-primary);
+  color: white;
+  border: none;
+  padding: 0 40px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  height: 100%;
+}
+
+.boss-main-container {
+  display: flex !important;
+  flex-direction: row !important;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 15px;
+  padding: 0 20px;
+  position: relative;
+  align-items: flex-start;
+}
+
+.boss-sidebar {
+  width: 240px;
+  height: 420px;
+  background: white;
+  border-radius: 8px;
+  padding: 10px 0;
+  box-shadow: var(--card-shadow);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.boss-menu-item {
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+.boss-menu-item:hover { background-color: #e0f7fa; color: var(--boss-primary); }
+
+.boss-mega-menu {
+  position: absolute;
+  left: 240px;
+  top: 0;
+  width: 600px;
+  min-height: 420px;
+  background: white;
+  box-shadow: 4px 0 16px rgba(0,0,0,0.1);
+  border-radius: 0 8px 8px 0;
+  z-index: 200;
+  padding: 30px;
+  display: none;
+}
+.boss-mega-menu.visible { display: block; }
+
+.boss-banner-area {
+  flex: 1;
+  height: 420px;
+  background: linear-gradient(135deg, #00bebd 0%, #00838f 100%);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+}
+
+.boss-right-sidebar {
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex-shrink: 0;
+}
+
+.boss-mini-card {
+  background: white;
+  padding: 25px 20px;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  text-align: center;
+}
+
+.boss-job-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 30px;
+}
+
+/* Marketplace Split View */
+.boss-sub-header {
+  background: white;
+  padding: 20px 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.boss-main-search-box {
+  display: flex;
+  width: 100%;
+  max-width: 900px;
+  height: 44px;
+  border: 2px solid var(--boss-primary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.boss-main-search-input { flex: 1; border: none; padding: 0 20px; outline: none; }
+.boss-main-search-btn { background: var(--boss-primary); color: white; border: none; padding: 0 30px; cursor: pointer; font-weight: bold; }
+
+.boss-search-type-select {
+  background: #f8f8f8;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #333;
+  border-right: 1px solid #eee;
+}
+
+.boss-filter-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: #666;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 15px;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+.boss-filter-item:hover { color: var(--boss-primary); background: #e0f7fa; }
+.boss-filter-item i { margin-left: 6px; font-size: 10px; color: #bbb; }
+
+.boss-workbench-container {
+  display: flex;
+  gap: 15px;
+  height: calc(100vh - 180px);
+  align-items: flex-start;
+}
+
+.boss-job-list-container {
+  width: 420px;
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.boss-job-card-item {
+  background: white;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+.boss-job-card-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.boss-job-card-item.active { border-color: var(--boss-primary); background-color: #f2fcfc; }
+
+.boss-job-detail-container {
+  flex: 1;
+  background: white;
+  border-radius: 8px;
+  height: 100%;
+  overflow-y: auto;
+  box-shadow: var(--card-shadow);
+}
+
+.boss-detail-header-wrapper {
+  padding: 30px;
+  background: linear-gradient(180deg, #fbfbfb 0%, #fff 100%);
+  border-bottom: 1px solid #eee;
+}
+
+.boss-detail-body-wrapper { padding: 30px; line-height: 1.8; color: #444; }
+
+.boss-recruiter-card-large {
+  display: flex; align-items: center; background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;
+}
+
+.btn-boss-primary-large {
+  background: var(--boss-primary); color: white; border: none; padding: 12px 40px; border-radius: 4px; font-size: 16px; cursor: pointer;
+}
+.btn-boss-outline-large {
+  background: white; border: 1px solid var(--boss-primary); color: var(--boss-primary); padding: 12px 40px; border-radius: 4px; font-size: 16px; cursor: pointer;
+}
+
+/* Login Page */
+.boss-login-container {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2000;
+  background-color: #00bebd; background-image: url("https://img.bosszhipin.com/static/file/2022/login_bg.jpg"); background-size: cover;
+  display: flex; align-items: center; justify-content: center;
+}
+.boss-login-card-wrapper { width: 900px; height: 560px; background: white; border-radius: 20px; display: flex; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+.boss-login-banner { width: 320px; background: #e8fafa; padding: 60px 40px; display: flex; flex-direction: column; justify-content: center; }
+.boss-login-form-area { flex: 1; padding: 50px 60px; display: flex; flex-direction: column; }
+.boss-login-input { width: 100%; height: 48px; border: 1px solid #ddd; border-radius: 4px; padding: 0 15px; margin-bottom: 20px; outline: none; }
+.boss-login-input:focus { border-color: var(--boss-primary); }
+.btn-boss-full { width: 100%; height: 48px; background: var(--boss-primary); color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; font-weight: bold; }
+.boss-login-tabs { display: flex; background: #f5f5f7; padding: 4px; border-radius: 4px; margin-bottom: 20px; }
+.boss-tab-item { flex: 1; text-align: center; padding: 8px; cursor: pointer; color: #666; }
+.boss-tab-item.active { background: white; color: var(--boss-primary); font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.boss-promo-item { display: flex; align-items: center; margin-bottom: 30px; }
+.boss-promo-icon { font-size: 24px; margin-right: 15px; color: var(--boss-primary); }
