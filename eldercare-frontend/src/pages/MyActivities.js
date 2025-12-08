@@ -150,9 +150,19 @@ function MyActivities({ user }) {
                                             {selectedItem.status === "ACTIVE" && (
                                                 <button className="btn-boss" onClick={() => handleComplete(selectedItem)}>Mark Complete</button>
                                             )}
-                                            {selectedItem.status === "PENDING" && user.role === "CLIENT" && (
-                                                <button className="btn btn-outline-danger" onClick={() => handleCancel(selectedItem)}>Cancel Request</button>
+                                            <button
+                                                className="btn btn-outline-primary"
+                                                onClick={() => navigate(`/chat/${selectedItem.id}`)}
+                                            >
+                                                Open Chat
+                                            </button>
+
+                                            {["PENDING", "ACTIVE"].includes(selectedItem.status) && user.role === "CLIENT" && (
+                                                <button className="btn btn-outline-danger" onClick={() => handleCancel(selectedItem)}>
+                                                    Cancel Request
+                                                </button>
                                             )}
+
                                             {selectedItem.status === "INTERESTED" && (
                                                 <button className="btn-boss" onClick={() => navigate(`/post/${selectedItem.postId}`)}>
                                                     View Job Again

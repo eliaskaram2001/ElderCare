@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import Welcome from "./pages/Welcome";
 import ServiceDetail from "./pages/ServiceDetail";
 import MyActivities from "./pages/MyActivities";
+import Chat from "./pages/Chat";
 import "./App.css";
 
 const getAvatarColor = (name) => {
@@ -162,6 +163,8 @@ function  App () {
                 <Route path="/profile" element={<Profile user={user} setUser={setUser} />} />
                 <Route path="/post/:id" element={<ServiceDetail user={user} />} />
                 <Route path="/my-activities" element={<MyActivities user={user} />} />
+                <Route path="/chat/:bookingId" element={<Chat user={user} />} />
+
             </Routes>
         </BrowserRouter>
     );

@@ -30,8 +30,28 @@ public class CarePostController {
 
     @GetMapping
     public List<CarePost> getAllPosts() {
-        return carePostRepository.findAll();
+        return carePostRepository.findByActiveTrue();
     }
+
+
+    @GetMapping("/my/{clientId}")
+    public List<CarePost> getMyPosts(@PathVariable Long clientId) {
+        return carePostRepository.findByClientId(clientId)
+                .stream()
+                .filter(CarePost::isActive)
+                .toList();
+    }
+
+
+    @PutMapping("/deactivate/{id}")
+    public ResponseEntity<?> deactivatePost(@PathVariable Long id) {
+        return carePostRepository.findById(id).map(post -> {
+            post.setActive(false);
+            carePostRepository.save(post);
+            return ResponseEntity.ok(post);
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<CarePost> getPostById(@PathVariable Long id) {

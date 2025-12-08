@@ -16,15 +16,28 @@ function Marketplace({ user }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        API.get("/posts")
-            .then((res) => {
-                const data = Array.isArray(res.data) ? res.data : [];
-                setPosts(data);
-                setFilteredPosts(data);
-                if (data.length > 0) setSelectedJob(data[0]);
-            })
-            .catch((err) => console.error("Failed to load posts", err));
-    }, []);
+        if (!user || user.role === "PROVIDER") {
+            // Providers see all jobs
+            API.get("/posts")
+                .then((res) => {
+                    const data = Array.isArray(res.data) ? res.data : [];
+                    setPosts(data);
+                    setFilteredPosts(data);
+                    if (data.length > 0) setSelectedJob(data[0]);
+                })
+                .catch((err) => console.error("Failed to load posts", err));
+        } else {
+            // Clients see ONLY their own jobs
+            API.get(`/posts/my/${user.id}`)
+                .then((res) => {
+                    const data = Array.isArray(res.data) ? res.data : [];
+                    setPosts(data);
+                    setFilteredPosts(data);
+                    if (data.length > 0) setSelectedJob(data[0]);
+                })
+                .catch((err) => console.error("Failed to load my posts", err));
+        }
+    }, [user]);
 
     useEffect(() => {
         let result = [...posts];
@@ -179,13 +192,40 @@ function Marketplace({ user }) {
                                         </div>
                                     </div>
                                     <div className="boss-action-btns">
-                                        <button className="btn-boss-outline-large" onClick={handleInterested}>
-                                            Interested
-                                        </button>
-                                        <button className="btn-boss-primary-large" onClick={handleChatApply}>
-                                            Chat / Apply
-                                        </button>
+
+                                        {/* CLIENT: Show Cancel Only on Own Job */}
+                                        {user && user.role === "CLIENT" && selectedJob.clientId === user.id && selectedJob.active && (
+                                            <button
+                                                className="btn btn-outline-danger"
+                                                onClick={async () => {
+                                                    if (!window.confirm("Cancel this job posting?")) return;
+
+                                                    await API.put(`/posts/deactivate/${selectedJob.id}`);
+                                                    alert("Job cancelled.");
+
+                                                    setPosts(prev => prev.filter(p => p.id !== selectedJob.id));
+                                                    setFilteredPosts(prev => prev.filter(p => p.id !== selectedJob.id));
+                                                    setSelectedJob(null);
+                                                }}
+                                            >
+                                                Cancel Job
+                                            </button>
+                                        )}
+
+                                        {/* PROVIDER: Can only apply to OTHER PEOPLE'S jobs */}
+                                        {user && user.role === "PROVIDER" && selectedJob.clientId !== user.id && selectedJob.active && (
+                                            <>
+                                                <button className="btn-boss-outline-large" onClick={handleInterested}>
+                                                    Interested
+                                                </button>
+                                                <button className="btn-boss-primary-large" onClick={handleChatApply}>
+                                                    Chat / Apply
+                                                </button>
+                                            </>
+                                        )}
+
                                     </div>
+
                                 </div>
 
                                 <div className="boss-detail-body-wrapper">
