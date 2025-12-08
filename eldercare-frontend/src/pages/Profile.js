@@ -1,65 +1,122 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import API from "../api/api";
-import { Link, useNavigate } from "react-router-dom";
 
-function Register() {
-    const [form, setForm] = useState({ fullName: "", email: "", password: "", role: "CLIENT", location: "", bio: "", phone: "" });
-    const navigate = useNavigate();
+function Profile({ user, setUser }) {
+    const [form, setForm] = useState({
+        fullName: "",
+        email: "",
+        phone: "",
+        location: "",
+        bio: "",
+        role: "",
+    });
 
-    // Handle input changes
-    const update = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
 
-    // Handle form submission
-    const handleRegister = async () => {
-        if (!form.fullName || !form.email || !form.password) return alert("Please fill required fields");
-        try {
-            await API.post("/auth/register", form);
-            navigate("/login");
-        } catch (err) { alert("Registration failed."); }
+    useEffect(() => {
+        if (!user) return;
+
+        const fetchProfile = async () => {
+            try {
+                const res = await API.get(`/users/${user.id}`);
+                setForm(res.data);
+            } catch (err) {
+                console.error("Failed to load profile", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProfile();
+    }, [user]);
+
+    const update = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    const saveProfile = async () => {
+        setSaving(true);
+        try {
+            const res = await API.put(`/users/${user.id}`, form);
+
+            setUser(res.data);
+            localStorage.setItem("eldercare_user", JSON.stringify(res.data));
+
+            alert("Profile updated successfully!");
+        } catch (err) {
+            alert("Failed to update profile.");
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    if (loading) return <div className="container mt-5">Loading your profile...</div>;
+
     return (
-        <div className="boss-login-container">
-            <div className="boss-login-card-wrapper" style={{ height: '650px' }}>
+        <div className="container mt-4" style={{ maxWidth: 600 }}>
+            <h2 className="mb-4">My Profile</h2>
 
-                <div className="boss-login-banner">
-                    <h2 style={{ color: '#00bebd', fontWeight: '800', marginBottom: '40px' }}>Join Us</h2>
-                    <div className="boss-promo-item">
-                        <div className="boss-promo-icon"><i className="bi bi-person-check-fill"></i></div>
-                        <div><h5 style={{fontWeight:'bold'}}>Trusted</h5><p style={{fontSize:'13px', color:'#888'}}>Community vetted caregivers.</p></div>
-                    </div>
-                    <div className="boss-promo-item">
-                        <div className="boss-promo-icon"><i className="bi bi-heart-fill"></i></div>
-                        <div><h5 style={{fontWeight:'bold'}}>Caring</h5><p style={{fontSize:'13px', color:'#888'}}>Support for your loved ones.</p></div>
-                    </div>
-                </div>
-
-                <div className="boss-login-form-area" style={{ overflowY: 'auto' }}>
-                    <h3 style={{ marginBottom: '20px', fontWeight: 'bold' }}>Create Account</h3>
-
-                    <div className="boss-login-tabs">
-                        <div className={`boss-tab-item ${form.role==='CLIENT'?'active':''}`} onClick={()=>setForm({...form, role:'CLIENT'})}>I need Care</div>
-                        <div className={`boss-tab-item ${form.role==='PROVIDER'?'active':''}`} onClick={()=>setForm({...form, role:'PROVIDER'})}>I offer Care</div>
-                    </div>
-
-                    <div className="row g-2">
-                        <div className="col-6"><input name="fullName" className="boss-login-input" placeholder="Full Name" onChange={update} /></div>
-                        <div className="col-6"><input name="phone" className="boss-login-input" placeholder="Phone" onChange={update} /></div>
-                    </div>
-                    <input name="email" className="boss-login-input" placeholder="Email Address" onChange={update} />
-                    <input type="password" name="password" className="boss-login-input" placeholder="Password" onChange={update} />
-                    <input name="location" className="boss-login-input" placeholder="City, State" onChange={update} />
-
-                    <button className="btn-boss-full" onClick={handleRegister}>Sign Up</button>
-
-                    <div className="text-center mt-3">
-                        <span style={{ color: '#666', fontSize:'14px' }}>Already have an account? </span>
-                        <Link to="/login" style={{ color: '#00bebd', fontWeight: '600' }}>Log In</Link>
-                    </div>
-                </div>
+            <div className="mb-3">
+                <label className="form-label">Full Name</label>
+                <input
+                    className="form-control"
+                    name="fullName"
+                    value={form.fullName}
+                    onChange={update}
+                />
             </div>
+
+            <div className="mb-3">
+                <label className="form-label">Email</label>
+                <input
+                    className="form-control"
+                    name="email"
+                    value={form.email}
+                    disabled
+                />
+            </div>
+
+            <div className="mb-3">
+                <label className="form-label">Phone</label>
+                <input
+                    className="form-control"
+                    name="phone"
+                    value={form.phone}
+                    onChange={update}
+                />
+            </div>
+
+            <div className="mb-3">
+                <label className="form-label">Location</label>
+                <input
+                    className="form-control"
+                    name="location"
+                    value={form.location}
+                    onChange={update}
+                />
+            </div>
+
+            <div className="mb-3">
+                <label className="form-label">Bio</label>
+                <textarea
+                    className="form-control"
+                    name="bio"
+                    value={form.bio}
+                    rows={3}
+                    onChange={update}
+                />
+            </div>
+
+            <button
+                className="btn btn-primary w-100"
+                onClick={saveProfile}
+                disabled={saving}
+            >
+                {saving ? "Saving..." : "Save Changes"}
+            </button>
         </div>
     );
 }
 
-export default Register;
+export default Profile;

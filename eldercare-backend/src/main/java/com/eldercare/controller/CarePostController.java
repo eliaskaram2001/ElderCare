@@ -4,6 +4,7 @@ import com.eldercare.dto.CreatePostRequest;
 import com.eldercare.model.CarePost;
 import com.eldercare.repository.CarePostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,6 @@ public class CarePostController {
     @PostMapping
     public CarePost createPost(@RequestBody CreatePostRequest req) {
         CarePost post = new CarePost();
-
         post.setClientId(req.clientId);
         post.setTitle(req.title);
         post.setDescription(req.description);
@@ -31,5 +31,12 @@ public class CarePostController {
     @GetMapping
     public List<CarePost> getAllPosts() {
         return carePostRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CarePost> getPostById(@PathVariable Long id) {
+        return carePostRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }

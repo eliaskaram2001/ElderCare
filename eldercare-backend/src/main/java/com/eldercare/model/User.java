@@ -23,8 +23,6 @@ public class User{
 
     public User() {}
 
-    //A bunch of Getters and Setters for the instances above
-
     public Long getId() { return id; }
 
     public String getFullName() { return fullName; }
