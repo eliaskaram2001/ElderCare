@@ -6,4 +6,5 @@ public class CreatePostRequest {
     public String description;
     public String location;
     public String price;
+    public String tags;
 }

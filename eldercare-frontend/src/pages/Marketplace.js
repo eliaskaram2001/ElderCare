@@ -15,30 +15,19 @@ function Marketplace({ user }) {
 
     const navigate = useNavigate();
 
+    // LOAD ALL JOB POSTS
     useEffect(() => {
-        if (!user || user.role === "PROVIDER") {
-            // Providers see all jobs
-            API.get("/posts")
-                .then((res) => {
-                    const data = Array.isArray(res.data) ? res.data : [];
-                    setPosts(data);
-                    setFilteredPosts(data);
-                    if (data.length > 0) setSelectedJob(data[0]);
-                })
-                .catch((err) => console.error("Failed to load posts", err));
-        } else {
-            // Clients see ONLY their own jobs
-            API.get(`/posts/my/${user.id}`)
-                .then((res) => {
-                    const data = Array.isArray(res.data) ? res.data : [];
-                    setPosts(data);
-                    setFilteredPosts(data);
-                    if (data.length > 0) setSelectedJob(data[0]);
-                })
-                .catch((err) => console.error("Failed to load my posts", err));
-        }
-    }, [user]);
+        API.get("/posts")
+            .then((res) => {
+                const data = Array.isArray(res.data) ? res.data : [];
+                setPosts(data);
+                setFilteredPosts(data);
+                if (data.length > 0) setSelectedJob(data[0]);
+            })
+            .catch((err) => console.error("Failed to load posts", err));
+    }, []);
 
+    // SEARCH / FILTER
     useEffect(() => {
         let result = [...posts];
 
@@ -47,7 +36,8 @@ function Marketplace({ user }) {
             result = result.filter(
                 (job) =>
                     job.title?.toLowerCase().includes(lower) ||
-                    job.description?.toLowerCase().includes(lower)
+                    job.description?.toLowerCase().includes(lower) ||
+                    job.tags?.toLowerCase().includes(lower)
             );
         }
 
@@ -73,61 +63,32 @@ function Marketplace({ user }) {
         return colors[(name || "A").charCodeAt(0) % colors.length];
     };
 
-    const handleInterested = async () => {
-        if (!selectedJob) return;
-        if (!user) { navigate("/login"); return; }
-
-        try {
-            await API.post("/bookings", {
-                postId: selectedJob.id,
-                postTitle: selectedJob.title,
-                clientId: selectedJob.clientId || 1,
-                clientName: selectedJob.clientName || "Client User",
-                providerId: user.id,
-                providerName: user.fullName,
-                status: "INTERESTED",
-            });
-            alert("Added to Browsing History!");
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    const handleChatApply = async () => {
-        if (!selectedJob) return;
-
-        if (user) {
-            try {
-                await API.post("/bookings", {
-                    postId: selectedJob.id,
-                    postTitle: selectedJob.title,
-                    clientId: selectedJob.clientId || 1,
-                    clientName: selectedJob.clientName || "Client",
-                    providerId: user.id,
-                    providerName: user.fullName,
-                    status: "INTERESTED",
-                });
-            } catch (error) {
-                console.log("History record already exists or failed");
-            }
-        }
-
-        navigate(`/post/${selectedJob.id}`);
-    };
-
     return (
         <div style={{ backgroundColor: "#f6f6f8", minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column" }}>
+
+            {/* SEARCH HEADER */}
             <div className="boss-sub-header">
                 <div className="container">
                     <div className="boss-search-wrapper">
+
+                        {/* SEARCH INPUT (UI FIXED) */}
                         <div className="boss-search-main">
                             <input
                                 className="boss-search-input"
-                                placeholder="Search by title / description"
+                                style={{
+                                    borderRadius: "12px",
+                                    border: "1px solid #ddd",
+                                    padding: "14px 20px",
+                                    boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+                                    fontSize: "15px",
+                                }}
+                                placeholder="Search by title, description, or tags"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
+
+                        {/* FILTERS */}
                         <div className="boss-search-filters">
                             <input
                                 className="boss-filter-input"
@@ -145,12 +106,16 @@ function Marketplace({ user }) {
                                 <option value="MEDICAL">Medical</option>
                             </select>
                         </div>
+
                     </div>
                 </div>
             </div>
 
+            {/* MAIN CONTENT */}
             <div className="container" style={{ flex: 1, paddingBottom: 20 }}>
                 <div className="boss-workbench-container">
+
+                    {/* LEFT SIDEBAR – JOB LIST */}
                     <div className="boss-job-list-container">
                         {filteredPosts.length > 0 ? (
                             filteredPosts.map((job) => (
@@ -161,16 +126,39 @@ function Marketplace({ user }) {
                                 >
                                     <div className="boss-card-top">
                                         <div className="boss-card-title">{job.title}</div>
-                                        <div className="boss-card-salary" style={{color: '#00bebd'}}>{job.price || "Negotiable"}</div>
+
+                                        {/* SHOW PRICE */}
+                                        <div className="boss-card-salary" style={{ color: "#00bebd", fontWeight: 600 }}>
+                                            {job.price || "—"}
+                                        </div>
                                     </div>
+
                                     <div className="boss-card-mid">
-                                        <span className="boss-card-tag">{job.location?.split(",")[0] || "Albany"}</span>
-                                        <span className="boss-card-tag">Verified</span>
+                                        <span className="boss-card-tag">
+                                            {job.location?.split(",")[0] || "Albany"}
+                                        </span>
+
+                                        {/* OPEN / CLOSED STATUS */}
+                                        <span
+                                            className="boss-card-tag"
+                                            style={{
+                                                background: job.active ? "#e6fffb" : "#fff1f0",
+                                                color: job.active ? "#00bebd" : "#ff4d4f",
+                                                border: `1px solid ${job.active ? "#00bebd" : "#ff4d4f"}`
+                                            }}
+                                        >
+                                            {job.active ? "OPEN" : "CLOSED"}
+                                        </span>
                                     </div>
+
+                                    {/* POSTED BY */}
                                     <div className="boss-card-bot">
                                         <div className="boss-recruiter-info">
-                                            <div className="boss-avatar-small" style={{ background: getAvatarColor(job.clientName) }}></div>
-                                            <span>{job.clientName || "Hiring Manager"}</span>
+                                            <div
+                                                className="boss-avatar-small"
+                                                style={{ background: getAvatarColor(job.clientName) }}
+                                            ></div>
+                                            <span>{job.clientName}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -180,20 +168,29 @@ function Marketplace({ user }) {
                         )}
                     </div>
 
+                    {/* RIGHT PANEL – JOB DETAILS */}
                     <div className="boss-job-detail-container">
                         {selectedJob ? (
                             <>
                                 <div className="boss-detail-header-wrapper">
                                     <div>
                                         <h2 className="boss-detail-title">{selectedJob.title}</h2>
+
+                                        {/* POSTED BY */}
+                                        <p style={{ fontSize: "14px", marginTop: "5px", color: "#666" }}>
+                                            Posted by {selectedJob.clientName}
+                                        </p>
+
                                         <div className="boss-detail-meta">
-                                            <span>{selectedJob.location || "Albany, NY"}</span>
-                                            <span>{selectedJob.createdAt ? selectedJob.createdAt.substring(0, 10) : ""}</span>
+                                            <span>{selectedJob.location}</span>
+                                            <span>{selectedJob.price}</span>
+                                            <span>{selectedJob.createdAt?.substring(0, 10)}</span>
                                         </div>
                                     </div>
+
                                     <div className="boss-action-btns">
 
-                                        {/* CLIENT: Show Cancel Only on Own Job */}
+                                        {/* CANCEL JOB (CLIENT ONLY) */}
                                         {user && user.role === "CLIENT" && selectedJob.clientId === user.id && selectedJob.active && (
                                             <button
                                                 className="btn btn-outline-danger"
@@ -201,56 +198,38 @@ function Marketplace({ user }) {
                                                     if (!window.confirm("Cancel this job posting?")) return;
 
                                                     await API.put(`/posts/deactivate/${selectedJob.id}`);
-                                                    alert("Job cancelled.");
 
-                                                    setPosts(prev => prev.filter(p => p.id !== selectedJob.id));
-                                                    setFilteredPosts(prev => prev.filter(p => p.id !== selectedJob.id));
-                                                    setSelectedJob(null);
+                                                    setPosts(prev => prev.map(p => p.id === selectedJob.id ? { ...p, active: false } : p));
+                                                    setFilteredPosts(prev => prev.map(p => p.id === selectedJob.id ? { ...p, active: false } : p));
+                                                    setSelectedJob(prev => ({ ...prev, active: false }));
                                                 }}
                                             >
                                                 Cancel Job
                                             </button>
                                         )}
 
-                                        {/* PROVIDER: Can only apply to OTHER PEOPLE'S jobs */}
+                                        {/* APPLY BUTTON */}
                                         {user && user.role === "PROVIDER" && selectedJob.clientId !== user.id && selectedJob.active && (
-                                            <>
-                                                <button className="btn-boss-outline-large" onClick={handleInterested}>
-                                                    Interested
-                                                </button>
-                                                <button className="btn-boss-primary-large" onClick={handleChatApply}>
-                                                    Chat / Apply
-                                                </button>
-                                            </>
+                                            <button
+                                                className="btn-boss-primary-large"
+                                                onClick={() => navigate(`/post/${selectedJob.id}`)}
+                                            >
+                                                Apply for Job
+                                            </button>
+                                        )}
+
+                                        {!selectedJob.active && user?.role === "PROVIDER" && (
+                                            <button className="btn btn-secondary" disabled>Job Closed</button>
                                         )}
 
                                     </div>
-
                                 </div>
 
                                 <div className="boss-detail-body-wrapper">
-                                    <div className="boss-recruiter-card-large">
-                                        <div className="boss-avatar-large" style={{ background: getAvatarColor(selectedJob.clientName) }}>
-                                            {(selectedJob.clientName || "C").charAt(0)}
-                                        </div>
-                                        <div className="boss-recruiter-text">
-                                            <h4>{selectedJob.clientName || "Hiring Manager"} <span className="boss-tag ms-2">Active</span></h4>
-                                            <p>ElderCare Family Client • Verified User</p>
-                                        </div>
-                                        <button className="btn-boss-outline ms-auto" onClick={() => navigate("/profile")}>View Profile</button>
-                                    </div>
-
                                     <h3 className="boss-section-title">Job Description</h3>
                                     <div className="boss-description-text">
                                         {selectedJob.description || "No description provided."}
                                     </div>
-
-                                    <h3 className="boss-section-title mt-4">Requirements</h3>
-                                    <ul className="boss-requirements-list">
-                                        <li>Good communication and patience.</li>
-                                        <li>Experience with elderly care is preferred.</li>
-                                        <li>Basic safety knowledge and responsibility.</li>
-                                    </ul>
                                 </div>
                             </>
                         ) : (
@@ -259,6 +238,7 @@ function Marketplace({ user }) {
                             </div>
                         )}
                     </div>
+
                 </div>
             </div>
         </div>

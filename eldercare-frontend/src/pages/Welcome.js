@@ -100,7 +100,7 @@ const Welcome = ({ user }) => {
                 </div>
 
                 <div className="boss-banner-area">
-                    <h1 style={{ fontSize: '3rem', fontWeight: '800' }}>ElderCare PRO</h1>
+                    <h1 style={{ fontSize: '3rem', fontWeight: '800' }}>ElderCare</h1>
                     <p style={{ fontSize: '1.2rem', opacity: 0.9 }}>Connecting Families with Caregivers</p>
                     {!user && (
                         <button

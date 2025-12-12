@@ -24,9 +24,15 @@ public class CarePost {
     private LocalDateTime createdAt = LocalDateTime.now();
     private boolean active = true;
 
+    @Transient
+    private String clientName;  // <-- will NOT be saved to DB
+
     public CarePost() {}
 
     public Long getId() { return id; }
+
+    private String tags;
+
 
     public Long getClientId() { return clientId; }
     public void setClientId(Long clientId) { this.clientId = clientId; }
@@ -47,4 +53,12 @@ public class CarePost {
     public void setActive(boolean active) { this.active = active; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
+
+
+    public String getClientName() { return clientName; }
+    public void setClientName(String clientName) { this.clientName = clientName; }
+
+    public String getTags() { return tags; }
+    public void setTags(String tags) { this.tags = tags; }
+
 }
