@@ -15,9 +15,9 @@ const Welcome = ({ user }) => {
     }, []);
 
     const categories = [
-        { id: 1, name: "Medical & Nursing", subCategories: ["RN", "LPN", "Therapist"] },
-        { id: 2, name: "Daily Assistance", subCategories: ["Cleaning", "Cooking", "Shopping"] },
-        { id: 3, name: "Companionship", subCategories: ["Walking", "Reading", "Chat"] },
+        { id: 1, name: "Medical & Nursing", subCategories: ["Request licensed caregiving support such as medical monitoring, medication reminders, mobility assistance, or professional nursing help."] },
+        { id: 2, name: "Daily Assistance", subCategories: ["Get support with everyday tasks like light cleaning, cooking simple meals, grocery shopping, and general household help."] },
+        { id: 3, name: "Companionship", subCategories: ["Connect with a friendly caregiver for conversation, walks, reading together, or simply spending quality time."] },
     ];
 
     const handleSearch = () => {

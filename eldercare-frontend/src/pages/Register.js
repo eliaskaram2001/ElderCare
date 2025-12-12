@@ -58,10 +58,10 @@ function Register({ setUser }) {
                         </div>
                         <div>
                             <h5 style={{ fontWeight: "bold", marginBottom: 4, color: "#333" }}>
-                                Trusted Care
+                                NEW YORK STATE
                             </h5>
                             <p style={{ fontSize: 13, color: "#888", margin: 0 }}>
-                                Connect with verified providers.
+                                now available in NEW York State!
                             </p>
                         </div>
                     </div>
@@ -86,10 +86,10 @@ function Register({ setUser }) {
                         </div>
                         <div>
                             <h5 style={{ fontWeight: "bold", marginBottom: 4, color: "#333" }}>
-                                Secure & Safe
+                                Perfect Match
                             </h5>
                             <p style={{ fontSize: 13, color: "#888", margin: 0 }}>
-                                All accounts verified.
+                                Find the perfect match in seconds.
                             </p>
                         </div>
                     </div>

@@ -73,7 +73,7 @@ function Login({ setUser }) {
                                     color: "#333",
                                 }}
                             >
-                                Smart Match
+                                Match
                             </h5>
                             <p style={{ fontSize: "13px", color: "#888", margin: 0 }}>
                                 Find the perfect match in seconds.
@@ -93,10 +93,10 @@ function Login({ setUser }) {
                                     color: "#333",
                                 }}
                             >
-                                Verified
+                                NEW YORK STATE
                             </h5>
                             <p style={{ fontSize: "13px", color: "#888", margin: 0 }}>
-                                100% verified professionals.
+                                Now Available in New York State!
                             </p>
                         </div>
                     </div>
@@ -181,15 +181,6 @@ function Login({ setUser }) {
                             />
                         </div>
                         <div style={{ textAlign: "right", marginTop: "8px" }}>
-              <span
-                  style={{
-                      color: "#00bebd",
-                      fontSize: "13px",
-                      cursor: "pointer",
-                  }}
-              >
-                Forgot Password?
-              </span>
                         </div>
                     </div>
 
@@ -198,9 +189,7 @@ function Login({ setUser }) {
                     </button>
 
                     <div style={{ textAlign: "center", marginTop: "20px" }}>
-            <span style={{ fontSize: "13px", color: "#999" }}>
-              Or log in with
-            </span>
+
                         <div style={{ marginTop: "10px" }}>
                             <i
                                 className="bi bi-wechat"
@@ -220,23 +209,6 @@ function Login({ setUser }) {
                                 }}
                             ></i>
                         </div>
-                    </div>
-
-                    <div className="boss-policy">
-                        <input type="checkbox" defaultChecked />
-                        <span>
-              I have read and agree to ElderCare's
-              <span style={{ color: "#00bebd", cursor: "pointer" }}>
-                {" "}
-                  User Agreement{" "}
-              </span>
-              and
-              <span style={{ color: "#00bebd", cursor: "pointer" }}>
-                {" "}
-                  Privacy Policy
-              </span>
-              .
-            </span>
                     </div>
                 </div>
             </div>

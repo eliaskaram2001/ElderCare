@@ -10,6 +10,7 @@ import ServiceDetail from "./pages/ServiceDetail";
 import MyActivities from "./pages/MyActivities";
 import Chat from "./pages/Chat";
 import "./App.css";
+import ReportBug from "./pages/ReportBug";
 
 const getAvatarColor = (name) => {
     const colors = ["#FFB6C1", "#87CEFA", "#90EE90", "#FFA07A", "#BA55D3"];
@@ -39,9 +40,9 @@ function NavBar({ user, setUser }) {
     const handleLogout = () => {
         if (window.confirm("Are you sure you want to log out?")) {
             localStorage.removeItem("eldercare_user");
-            setUser(null); // 清空全局状态
+            setUser(null);
             setShowMenu(false);
-            navigate("/"); // 回到首页
+            navigate("/");
         }
     };
 
@@ -116,6 +117,15 @@ function NavBar({ user, setUser }) {
                                     <i className="bi bi-person-gear"></i> My Profile
                                 </div>
 
+                                {/* ⭐ ADDED REPORT BUG BUTTON HERE */}
+                                <div
+                                    className="boss-menu-item-hover"
+                                    onClick={() => { setShowMenu(false); navigate('/report-bug'); }}
+                                    style={{ padding: '10px 20px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: '#555' }}
+                                >
+                                    <i className="bi bi-bug-fill"></i> Report a Bug
+                                </div>
+
                                 <div
                                     className="boss-menu-item-hover"
                                     onClick={handleLogout}
@@ -141,7 +151,7 @@ function NavBar({ user, setUser }) {
     );
 }
 
-function  App () {
+function App() {
     const [user, setUser] = useState(() => {
         try {
             const stored = localStorage.getItem("eldercare_user");
@@ -149,7 +159,7 @@ function  App () {
         } catch {
             return null;
         }
-    }) ;
+    });
 
     return (
         <BrowserRouter>
@@ -164,10 +174,10 @@ function  App () {
                 <Route path="/post/:id" element={<ServiceDetail user={user} />} />
                 <Route path="/my-activities" element={<MyActivities user={user} />} />
                 <Route path="/chat/:bookingId" element={<Chat user={user} />} />
-
+                <Route path="/report-bug" element={<ReportBug user={user} />} />
             </Routes>
         </BrowserRouter>
     );
 }
 
-export default App ;
+export default App;
